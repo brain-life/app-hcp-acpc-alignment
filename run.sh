@@ -14,6 +14,7 @@ type=`jq -r '.type' config.json` #T1 or T2
 crop=`jq -r '.crop' config.json`
 reorient=`jq -r '.reorient' config.json`
 mask=`jq -r '.mask' config.json`
+cleanup=`jq -r '.cleanup' config.json`
 [ ! -d ./transform ] && mkdir -p transform
 
 product=""
@@ -80,6 +81,10 @@ slicer $output -x 0.5 out_aligncheck.png
 
 # move transform
 [ ! -f ./transform/affine.txt ] && mv outputmatrix ./transform/affine.txt
+
+if [[ ${cleanup} == "true" ]]; then
+    rm -Rf ./templates
+fi
 
 # create product.json
 cat << EOF > product.json
