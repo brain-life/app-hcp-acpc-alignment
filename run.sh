@@ -84,6 +84,8 @@ slicer $output -x 0.5 out_aligncheck.png
 
 if [[ ${cleanup} == "true" ]]; then
     rm -Rf ./templates
+    rm -Rf ./.git
+    rm acpc_mni.nii.gz
 fi
 
 # create product.json
