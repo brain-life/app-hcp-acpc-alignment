@@ -11,6 +11,7 @@ set -e
 input=`jq -r '.input' config.json`
 template=`jq -r '.template' config.json`
 type=`jq -r '.type' config.json` #T1 or T2
+cleanup=`jq -r '.cleanup' config.json`
 
 [ ! -d ./transform ] && mkdir -p transform
 
@@ -56,6 +57,12 @@ slicer $output -x 0.5 out_aligncheck.png
 
 # move transform
 [ ! -f ./transform/affine.txt ] && mv outputmatrix ./transform/affine.txt
+
+if [[ ${cleanup} == "true" ]]; then
+    rm -Rf ./templates
+    rm -Rf ./.git
+    rm acpc_mni.nii.gz
+fi
 
 # create product.json
 cat << EOF > product.json
